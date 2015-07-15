@@ -13,22 +13,18 @@ class Field(val width: Int, val height: Int) {
   }
 
   def column(x: Int): Seq[Block] = {
-    for (y <- 0 until height) yield at(x, y)
+    for (y <- 0 until height) yield apply(x, y)
   }
 
-  def at(x: Int, y: Int): Block = {
-    grid(y)(x)
-  }
+  def apply(x: Int, y: Int): Block = grid(y)(x)
 
-  def at(pt: Position): Block = {
-    at(pt.x, pt.y)
-  }
+  def apply(pt: Position): Block = apply(pt.x, pt.y)
 
-  def set(x: Int, y: Int, block: Block): Unit = {
+  def update(x: Int, y: Int, block: Block): Unit = {
     grid(y)(x) = block
   }
 
-  def set(pt: Position, block: Block): Unit = {
-    set(pt.x, pt.y, block)
+  def update(pt: Position, block: Block): Unit = {
+    update(pt.x, pt.y, block)
   }
 }

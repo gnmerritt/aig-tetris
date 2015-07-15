@@ -7,28 +7,28 @@ class FieldTest extends UnitSpec {
 
   "A Field" should "be the right size" in {
     for (x <- 0 until field.width; y <- 0 until field.height) {
-      assert(field.at(x, y) == Block.EMPTY)
+      assert(field(x, y) == Block.EMPTY)
     }
   }
 
   it should "throw ArrayIndexOutOfBoundsException for bad access" in {
     intercept[ArrayIndexOutOfBoundsException] {
-      field.at(4, 4)
+      field(4, 4)
     }
   }
 
   it should "respect its setters" in {
-    field.set(0, 1, Block.PIECE)
-    assert(field.at(0, 1) == Block.PIECE)
+    field(0, 1) = Block.PIECE
+    assert(field(0, 1) == Block.PIECE)
     val pt = new Position(1,1)
-    field.set(pt, Block.FILLED)
-    assert(field.at(pt) == Block.FILLED)
+    field(pt) = Block.FILLED
+    assert(field(pt) == Block.FILLED)
   }
 
   val narrow = new Field(1, 3)
 
   it should "expose row & column" in {
-    narrow.set(0, 2, Block.PIECE)
+    narrow(0, 2) = Block.PIECE
     val column = narrow.column(0)
     assert(column.length == narrow.height)
     assert(column(2) == Block.PIECE)
