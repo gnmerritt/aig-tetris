@@ -20,8 +20,21 @@ class FieldTest extends UnitSpec {
   it should "respect its setters" in {
     field.set(0, 1, Block.PIECE)
     assert(field.at(0, 1) == Block.PIECE)
-    val pt = new Point(1,1)
+    val pt = new Position(1,1)
     field.set(pt, Block.FILLED)
     assert(field.at(pt) == Block.FILLED)
+  }
+
+  val narrow = new Field(1, 3)
+
+  it should "expose row & column" in {
+    narrow.set(0, 2, Block.PIECE)
+    val column = narrow.column(0)
+    assert(column.length == narrow.height)
+    assert(column(2) == Block.PIECE)
+
+    val row = narrow.row(2)
+    assert(row.length == narrow.width)
+    assert(row(0) == Block.PIECE)
   }
 }
