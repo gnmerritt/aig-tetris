@@ -1,9 +1,9 @@
 package net.gnmerritt.tetris.engine
 
 /**
- * Created by nathan on 7/10/15.
+ * Different types of blocks that can show up on the Field
  */
 object Block extends Enumeration {
   type Block = Value
-  val EMPTY, PIECE, FILLED = Value
+  val EMPTY, PIECE, FILLED, SOLID = Value
 }
