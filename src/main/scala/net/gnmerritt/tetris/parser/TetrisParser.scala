@@ -1,8 +1,12 @@
 package net.gnmerritt.tetris.parser
 
-/**
- * Created by nathan on 7/10/15.
- */
-object TetrisParser {
+import net.gnmerritt.tetris.player.GameState
 
+/**
+ * Parses a field from a game description
+ */
+object TetrisParser extends GameParser {
+  def update(current: GameState, parts: Array[String]): GameState = {
+    new GameState
+  }
 }
