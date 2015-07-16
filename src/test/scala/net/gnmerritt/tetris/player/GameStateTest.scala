@@ -16,7 +16,7 @@ class GameStateTest extends UnitSpec {
   }
 
   it should "update rationally" in {
-    val newRound = new Round(round = 2)
+    val newRound = new Round(roundNum = 2)
     val newState = state.copy(round = newRound)
     assert(state != newState)
     assert(newState.round == newRound)

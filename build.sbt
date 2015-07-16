@@ -4,7 +4,10 @@ version := "1.0"
 
 scalaVersion := "2.11.6"
 
-libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+libraryDependencies ++= Seq(
+  "com.beachape" %% "enumeratum" % "1.2.2",
+  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+)
 
 ScoverageSbtPlugin.ScoverageKeys.coverageHighlighting := {
   if (scalaBinaryVersion.value == "2.11") true
