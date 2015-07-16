@@ -37,4 +37,12 @@ class FieldTest extends UnitSpec {
     assert(row.length == narrow.width)
     assert(row(0) == Block.PIECE)
   }
+
+  "Two empty fields" should "be equal" in {
+    assert(new Field(0, 0) == new Field(0, 0))
+  }
+
+  "Two dissimilar fields" should "not be equal" in {
+    assert(new Field(1, 1) != new Field(2, 1))
+  }
 }

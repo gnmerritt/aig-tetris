@@ -27,4 +27,14 @@ class Field(val width: Int, val height: Int) {
   def update(pt: Position, block: Block): Unit = {
     update(pt.x, pt.y, block)
   }
+
+  // TODO: this isn't right, but ok for now
+  override def equals(other: Any): Boolean = other match {
+    case that: Field => {
+      val otherField = other.asInstanceOf[Field]
+      this.height == otherField.height &&
+      this.width == otherField.width
+    }
+    case _ => false
+  }
 }

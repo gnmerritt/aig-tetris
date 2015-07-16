@@ -6,7 +6,12 @@ import Block._
  * Types of Tertis pieces
  */
 sealed abstract class AbstractPiece
-case class Piece(val name: String, val grid: Array[Array[Block]]) extends AbstractPiece
+case class Piece(val name: String, val grid: Array[Array[Block]]) extends AbstractPiece {
+  override def equals(o: Any): Boolean = o match {
+    case that: Piece => this.name == o.asInstanceOf[Piece].name
+    case _ => false
+  }
+}
 
 object IPiece extends Piece(
   "I",

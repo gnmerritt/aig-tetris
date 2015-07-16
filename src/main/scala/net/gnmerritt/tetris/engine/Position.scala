@@ -1,6 +1,6 @@
 package net.gnmerritt.tetris.engine
 
 /**
- * Created by nathan on 7/10/15.
+ * Position on the board. Origin is at top left
  */
-case class Position(x: Int, y: Int)
+case class Position(x: Int = 0, y: Int = 0)
