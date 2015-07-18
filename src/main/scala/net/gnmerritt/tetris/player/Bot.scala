@@ -9,6 +9,7 @@ import net.gnmerritt.tetris.parser.{SettingsParser, UpdateParser}
  * Bot runtime - reads line and hands them off to the scanner
  */
 object Bot {
+  val FAILSAFE = "drop"
   val brain = new Brain
   var gameState = new GameState
 
@@ -26,22 +27,22 @@ object Bot {
 
   def handleLine(brain: Brain, line: String) = {
     val parts = line.split(" ")
-    parts(0) match {
-      case "settings" =>
-        gameState = SettingsParser.update(gameState, parts)
-        ((), ())
-      case "update" =>
-        gameState = UpdateParser.update(gameState, parts)
-        ((), ())
-      case "action" =>
-        try {
+    try {
+      parts(0) match {
+        case "settings" =>
+          gameState = SettingsParser.update(gameState, parts)
+          ((), ())
+        case "update" =>
+          gameState = UpdateParser.update(gameState, parts)
+          ((), ())
+        case "action" =>
           val move = brain.getMoves(gameState, parts(2).toInt)
           (move, ())
-        } catch {
-          case e: Exception => ("drop", e.getMessage)
+        case _ =>
+          (FAILSAFE, "Couldn't handle line: " + line)
         }
-      case _ =>
-        ((), "Couldn't handle line: " + line)
+    } catch {
+      case e: Exception => (FAILSAFE, e.getMessage)
     }
   }
 }
