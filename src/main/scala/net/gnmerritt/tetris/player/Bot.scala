@@ -1,5 +1,6 @@
 package net.gnmerritt.tetris.player
 
+import java.io.{InputStream, OutputStream, PrintStream}
 import java.util.Scanner
 
 import net.gnmerritt.tetris.parser.{SettingsParser, UpdateParser}
@@ -14,15 +15,23 @@ object Bot {
   var gameState = new GameState
 
   def main(args: Array[String]) {
-    val scanner = new Scanner(System.in)
+    mainLoop(System.in, System.out, System.err)
+  }
+
+  def mainLoop(input: InputStream, outputStream: OutputStream, logStream: OutputStream) {
+    val scanner = new Scanner(input)
     while (scanner.hasNextLine) {
       val line = scanner.nextLine()
       if (line.length > 0) {
         val (output, err) = handleLine(brain, line)
-        System.err.println(err)
-        System.out.println(output)
+        say(err, logStream)
+        say(output, outputStream)
       }
     }
+  }
+
+  def say(line: Option[String], output: OutputStream) {
+    line.foreach(l => output.write(l.getBytes()))
   }
 
   def handleLine(brain: Brain, line: String) = {
@@ -31,18 +40,18 @@ object Bot {
       parts(0) match {
         case "settings" =>
           gameState = SettingsParser.update(gameState, parts)
-          ((), ())
+          (None, None)
         case "update" =>
           gameState = UpdateParser.update(gameState, parts)
-          ((), ())
+          (None, None)
         case "action" =>
           val move = brain.getMoves(gameState, parts(2).toInt)
-          (move, ())
+          (Some(move), None)
         case _ =>
-          (FAILSAFE, "Couldn't handle line: " + line)
+          (Some(FAILSAFE), Some("Couldn't handle line: " + line))
         }
     } catch {
-      case e: Exception => (FAILSAFE, e.getMessage)
+      case e: Exception => (Some(FAILSAFE), Some(e.getMessage))
     }
   }
 }
