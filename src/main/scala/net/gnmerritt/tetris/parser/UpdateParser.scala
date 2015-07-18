@@ -28,6 +28,8 @@ object UpdateParser extends GameParser {
           case Some(piece) => return curr.copy(round = curr.round.copy(nextPiece = piece))
           case None => false
         }
+      case "field" =>
+        return FieldParser.update(curr, parts)
       case _ => false
     }
     curr

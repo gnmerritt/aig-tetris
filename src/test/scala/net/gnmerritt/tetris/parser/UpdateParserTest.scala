@@ -1,11 +1,11 @@
 package net.gnmerritt.tetris.parser
 
 import net.gnmerritt.tetris.UnitSpec
-import net.gnmerritt.tetris.engine.Position
+import net.gnmerritt.tetris.engine.{Block, Field, Position}
 import net.gnmerritt.tetris.player.GameState
 
 /**
- * Tests for round-by-roud updates
+ * Tests for round-by-round updates
  */
 class UpdateParserTest extends UnitSpec {
   def line(line: String): GameState = {
@@ -33,6 +33,17 @@ class UpdateParserTest extends UnitSpec {
   }
 
   it should "parse the field" in {
-    val fieldState = line("update player1 field 0,0,0,0,1,1,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0")
+    val player = SettingsParser.update(new GameState, "settings your_bot player1")
+    assert(player.settings.you == "player1")
+    val fieldState = UpdateParser.update(player,
+      "update player1 field 0,0,0,0,1,1,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0"
+    )
+    assert(fieldState.opponent.field == new Field(0, 0))
+    val field = fieldState.you.field
+    assert(field.width == 10, "field width")
+    assert(field.height == 20, "field height")
+    assert(field(0, 0) == Block.EMPTY)
+    assert(field(4, 0) == Block.PIECE)
+    assert(field(4, 1) == Block.EMPTY)
   }
 }
