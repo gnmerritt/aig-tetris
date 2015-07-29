@@ -1,6 +1,6 @@
 package net.gnmerritt.tetris.player
 
-import java.io.{InputStream, OutputStream, PrintStream}
+import java.io.{InputStream, OutputStream}
 import java.util.Scanner
 
 import net.gnmerritt.tetris.parser.{SettingsParser, UpdateParser}
@@ -45,8 +45,8 @@ object Bot {
           gameState = UpdateParser.update(gameState, parts)
           (None, None)
         case "action" =>
-          val move = brain.getMoves(gameState, parts(2).toInt)
-          (Some(move), None)
+          val moves = brain.getMoves(gameState, parts(2).toInt)
+          (Some(moves), None)
         case _ =>
           (Some(FAILSAFE), Some("Couldn't handle line: " + line))
         }
